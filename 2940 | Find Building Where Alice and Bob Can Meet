@@ -1,0 +1,29 @@
+# Brute Force
+
+class Solution:
+    def leftmostBuildingQueries(self, heights, queries):
+        res = []
+        for query in queries:
+            alice = min(query[0], query[1])
+            bob = max(query[0], query[1])
+
+            # If alice == bob or the height at bob is already greater than alice
+            if alice == bob or heights[bob] > heights[alice]:
+                res.append(bob)
+                continue
+
+            # Find the leftmost taller building after bob
+            ans = -1
+            for i in range(bob + 1, len(heights)):
+                if heights[i] > heights[alice]:
+                    ans = i
+                    break
+
+            res.append(ans)
+        return res
+-----------------------------------------------------------
+Explanation
+For each query, iterate through the buildings starting from bob + 1.
+Find the first building taller than heights[alice] and return its index.
+Time Complexity: 
+O(q⋅n), where q is the number of queries and n is the number of buildings.
