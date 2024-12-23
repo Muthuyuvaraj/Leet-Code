@@ -1,0 +1,41 @@
+class Solution:
+    def __init__(self):
+        self.levels = []
+
+    def dfs(self, node, depth):
+        if not node:
+            return
+        if len(self.levels) <= depth:
+            self.levels.append([])
+        self.levels[depth].append(node.val)
+        self.dfs(node.left, depth + 1)
+        self.dfs(node.right, depth + 1)
+
+    def findMinSwaps(self, values):
+        n = len(values)
+        min_swaps = 0
+        value_to_index = {value: i for i, value in enumerate(values)}
+        sorted_values = sorted(values)
+        visited = [False] * n
+
+        for i in range(n):
+            if visited[i] or value_to_index[sorted_values[i]] == i:
+                continue
+
+            cycle_length = 0
+            j = i
+            while not visited[j]:
+                visited[j] = True
+                j = value_to_index[sorted_values[j]]
+                cycle_length += 1
+
+            min_swaps += cycle_length - 1
+
+        return min_swaps
+
+    def minimumOperations(self, root: TreeNode) -> int:
+        self.dfs(root, 0)
+        min_swaps = 0
+        for level in self.levels:
+            min_swaps += self.findMinSwaps(level)
+        return min_swaps
