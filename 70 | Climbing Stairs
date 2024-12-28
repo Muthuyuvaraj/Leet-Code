@@ -1,0 +1,18 @@
+Optimized Space
+Since we only need the last two values in the sequence at any point, we can use two variables instead of an array.
+
+Use two variables prev1 and prev2 to store the last two computed values.
+Iteratively calculate the next value and update prev1 and prev2.
+---------------------------------------------------------
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n == 1:
+            return 1
+        p1, p2 = 1, 2
+
+        for i in range(3, n + 1):
+            c = p1 + p2
+            p1 = p2
+            p2 = c
+        return p2
