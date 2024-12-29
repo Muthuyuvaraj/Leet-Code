@@ -1,0 +1,33 @@
+from collections import defaultdict
+
+class Solution:
+    def numWays(self, words: List[str], target: str) -> int:
+        mod = 10**9 + 7
+        cnt = defaultdict(int)
+
+        # Populate count of characters at each position
+        for w in words:
+            for i, c in enumerate(w):
+                cnt[(i, c)] += 1
+
+        dp = {}
+
+        # Depth-First Search with Memoization
+        def dfs(i, k):
+            if i == len(target):  # If target is fully formed
+                return 1
+            if k == len(words[0]):  # If we've run out of columns
+                return 0
+            if (i, k) in dp:  # Use cached result if available
+                return dp[(i, k)]
+
+            c = target[i]
+            # Skip the current column
+            dp[(i, k)] = dfs(i, k + 1)
+            # Use the current column if it matches the target character
+            dp[(i, k)] += cnt[(k, c)] * dfs(i + 1, k + 1)
+            dp[(i, k)] %= mod  # Apply modulo to avoid overflow
+
+            return dp[(i, k)]
+
+        return dfs(0, 0)
