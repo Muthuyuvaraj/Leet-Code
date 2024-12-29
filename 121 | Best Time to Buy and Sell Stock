@@ -1,0 +1,28 @@
+Approach: Tracking Minimum Price and Maximum Profit
+Initialize:
+
+A variable min_price to store the lowest price seen so far, initialized to infinity.
+A variable max_profit to store the maximum profit achievable, initialized to 0.
+Iterate Through Prices:
+
+For each price in the array:
+Update min_price to the smaller of the current min_price or the current price.
+Compute the potential profit as the difference between the current price and min_price.
+Update max_profit to the larger of the current max_profit or the potential profit.
+Return max_profit:
+
+At the end of the loop, max_profit contains the maximum profit possible.
+
+-----------------------------------------------------------------------------
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        min_price = float("inf")
+        max_profit = 0
+
+        for price in prices:
+            min_price = min(min_price , price)
+
+            max_profit = max(max_profit, price - min_price)
+
+        return max_profit
