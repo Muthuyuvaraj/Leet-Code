@@ -1,0 +1,11 @@
+class Solution:
+    def jump(self, nums):
+        c=0
+        j=0
+        far = 0
+        for i in range (len(nums) - 1):
+            far = max(far,  i + nums[i])
+            if i == c:
+                j += 1
+                c = far
+        return j
