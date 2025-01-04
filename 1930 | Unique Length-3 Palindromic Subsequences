@@ -1,0 +1,19 @@
+class Solution:
+    def countPalindromicSubsequence(self, s):
+        n = len(s)
+        prefix = [set() for _ in range(n)]  
+        suffix = [set() for _ in range(n)]  
+        seen = set()
+        for i in range(n):
+            prefix[i] = seen.copy()
+            seen.add(s[i])
+        seen = set()
+        for i in range(n - 1, -1, -1):
+            suffix[i] = seen.copy()
+            seen.add(s[i])
+        unique_palindromes = set()
+        for i in range(1, n - 1):
+            for char in prefix[i]:
+                if char in suffix[i]:
+                    unique_palindromes.add(char + s[i] + char)
+        return len(unique_palindromes)
