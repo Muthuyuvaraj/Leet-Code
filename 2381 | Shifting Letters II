@@ -1,0 +1,18 @@
+class Solution:
+    def shiftingLetters(self, s, shifts):
+        n = len(s)
+        shift_effect = [0] * (n + 1)  
+        for start, end, direction in shifts:
+            shift_value = 1 if direction == 1 else -1
+            shift_effect[start] += shift_value
+            shift_effect[end + 1] -= shift_value
+        net_shifts = [0] * n
+        current_shift = 0
+        for i in range(n):
+            current_shift += shift_effect[i]
+            net_shifts[i] = current_shift
+        result = []
+        for i, char in enumerate(s):
+            shift = (ord(char) - ord('a') + net_shifts[i]) % 26
+            result.append(chr(ord('a') + shift))
+        return ''.join(result)
