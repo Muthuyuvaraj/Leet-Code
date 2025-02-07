@@ -1,0 +1,28 @@
+from collections import defaultdict
+
+class Solution:
+    def queryResults(self, limit, queries):
+        ball_colors = {}  # Dictionary to store the color of each ball
+        color_count = defaultdict(int)  # Dictionary to keep track of occurrences of each color
+        distinct_colors = set()  # Set to store distinct colors
+        result = []  # Result array
+        
+        for ball, color in queries:
+            # If the ball already has a color, check if we need to remove it from distinct_colors
+            if ball in ball_colors:
+                old_color = ball_colors[ball]
+                color_count[old_color] -= 1
+                if color_count[old_color] == 0:
+                    distinct_colors.remove(old_color)
+            
+            # Update the color of the ball
+            ball_colors[ball] = color
+            
+            # Update the color count
+            color_count[color] += 1
+            distinct_colors.add(color)
+            
+            # Store the current number of distinct colors
+            result.append(len(distinct_colors))
+        
+        return result
