@@ -1,0 +1,25 @@
+from typing import List
+from collections import defaultdict
+
+class Solution:
+    def maximumSum(self, nums: List[int]) -> int:
+        def digit_sum(n: int) -> int:
+            return sum(int(digit) for digit in str(n))  # Calculate sum of digits
+        
+        digit_sum_map = defaultdict(list)  # Dictionary to store numbers by digit sum
+        max_sum = -1
+
+        # Group numbers by their digit sum
+        for num in nums:
+            ds = digit_sum(num)
+            digit_sum_map[ds].append(num)
+
+        # Find the max sum of two numbers with the same digit sum
+        for values in digit_sum_map.values():
+            if len(values) > 1:
+                values.sort(reverse=True)  # Sort in descending order
+                max_sum = max(max_sum, values[0] + values[1])
+
+        return max_sum
+
+
