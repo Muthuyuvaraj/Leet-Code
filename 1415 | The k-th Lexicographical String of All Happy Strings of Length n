@@ -1,0 +1,19 @@
+class Solution:
+    def getHappyString(self, n: int, k: int) -> str:
+        def backtrack(current, last_char):
+            if len(current) == n:
+                happy_strings.append(current)
+                return
+            for char in ['a', 'b', 'c']:
+                if char != last_char:
+                    backtrack(current + char, char)
+        
+        happy_strings = []
+        backtrack("", "")
+        
+        happy_strings.sort()
+        
+        if k > len(happy_strings):
+            return ""
+        else:
+            return happy_strings[k-1]
